@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Dashboard | RecordPathAI</title><meta name="description" content="Track RecordPathAI eligibility, saved cases, packet status, and RecordWatch status." /><link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/ledger.css" /></head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-utility" aria-label="Utility navigation">
+        <div class="language-access language-access-utility">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <label for="language-selector" data-i18n="lang.label">Language Access</label>
+          <select id="language-selector" data-language-selector>
+            <option value="en" data-i18n="lang.english">English</option>
+            <option value="es" data-i18n="lang.spanish">Español</option>
+          </select>
+        </div>
+        <div class="auth-utility" data-auth-utility></div>
+      </div>
+
+      <div class="header-shell header-shell-modern">
+        <div class="header-inner">
+          <a href="index.html" class="site-brand">
+            <img
+              src="/assets/images/logo/RecordPathAI_Logo_Transparent.png"
+              alt="RecordPathAI"
+              class="site-logo"
+            >
+          </a>
+
+          <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+            <span class="menu-toggle-line"></span>
+            <span class="menu-toggle-line"></span>
+            <span class="menu-toggle-line"></span>
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+
+          <nav class="nav" id="primary-navigation" aria-label="Primary navigation">
+            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="how-it-works.html" data-i18n="nav.how">How It Works</a>
+            <a href="eligibility.html" data-i18n="nav.eligibility">Eligibility</a>
+            <a href="record-details.html" data-i18n="nav.recordDetails">Record Details</a>
+            <a href="recordwatch-dashboard.html" data-i18n="nav.recordWatch">RecordWatch</a>
+            <a href="court-access.html" data-i18n="nav.courtAccess">Court Access</a>
+            <a href="eligibility.html" class="nav-cta" data-i18n="nav.checkEligibility">Start Free Eligibility Check</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="page-hero"><div class="container hero-card"><span class="eyebrow">Account dashboard</span><h1 id="dashboardTitle">Your RecordPathAI dashboard</h1><p>Review saved account data, live case records, packet status, RecordWatch status, and the recommended next action.</p></div></section>
+    <section class="page-section"><div class="container recordwatch-stack">
+      <div class="dashboard-grid">
+        <article class="dashboard-card"><p class="eyebrow-mini">Eligibility status</p><h3 id="eligibilityStatus">Not screened yet</h3><p id="eligibleDate" class="muted"></p></article>
+        <article class="dashboard-card"><p class="eyebrow-mini">Saved cases</p><h3 id="savedCaseCount">0</h3><p class="muted">Cases saved to your account.</p></article>
+        <article class="dashboard-card"><p class="eyebrow-mini">Packet status</p><h3 id="packetStatus">Not generated</h3><p id="paymentStatus" class="muted">Payment not recorded.</p></article>
+        <article class="dashboard-card"><p class="eyebrow-mini">RecordWatch status</p><h3 id="recordWatchStatus">Ready</h3><p class="muted">Use RecordWatch to monitor next steps.</p></article>
+        <article class="dashboard-card wide"><p class="eyebrow-mini">Next action</p><h3 id="nextAction">Continue eligibility intake</h3><div class="hero-actions"><a id="nextActionLink" class="btn" href="eligibility.html">Continue</a><a class="btn secondary" href="record-details.html">Edit Record Details</a><a class="btn secondary" href="recordwatch-dashboard.html">Open RecordWatch</a></div></article>
+      </div>
+      <section class="page-card recordwatch-dashboard-card">
+        <div class="section-heading-row">
+          <div>
+            <h2>RecordWatch</h2>
+            <p class="muted">Track your eligibility date, reminders, notification status, and upcoming alerts.</p>
+          </div>
+          <a class="btn secondary" href="recordwatch-dashboard.html">Open RecordWatch</a>
+        </div>
+
+        <div id="recordWatchWidget" class="recordwatch-dashboard-grid"></div>
+      </section>
+      <section class="page-card" id="purchaseLedgerSection">
+        <div class="section-heading-row">
+          <div>
+            <h2>Purchase Ledger</h2>
+            <p class="muted">Track your RecordPathAI purchases, credits, refunds, and RecordWatch activity.</p>
+          </div>
+          <button class="btn secondary" id="downloadLedgerCsv" type="button">Download Ledger CSV</button>
+        </div>
+
+        <div class="ledger-summary-grid" id="ledgerSummaryCards" aria-label="Purchase ledger summary"></div>
+
+        <div class="ledger-actions">
+          <p class="ledger-disclaimer">This ledger is for your RecordPathAI account activity. Court filing fees, attorney fees, or third-party fees may not appear unless paid through RecordPathAI.</p>
+        </div>
+
+        <div class="ledger-empty-state" id="ledgerEmptyState" hidden>Your purchases and credits will appear here after you unlock a packet or activate premium RecordWatch.</div>
+
+        <div class="ledger-table-wrap" id="ledgerTableWrap" hidden>
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Case</th>
+                <th>Type</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="page-card"><div class="section-heading-row"><div><h2>Saved cases</h2><p class="muted">Resume, edit, monitor, or safely remove saved case records.</p></div><a class="btn secondary" href="record-details.html">Enter Record Details</a></div><p id="savedCaseStatus" class="muted" role="status" aria-live="polite"></p><div id="caseList" class="saved-case-grid"></div></section>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container"><div class="footer-shell"><div><div class="footer-brand">RecordPathAI</div><div class="footer-copy">Guided record relief workflow and court packet preparation.</div><div class="footer-disclaimer">Authentication and saved case records are powered by Supabase.</div></div><div class="footer-links"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="disclaimer.html">Disclaimer</a></div></div></div></footer>
+  <script src="js/packet-data-bridge.js"></script>
+  <script src="js/rules/date-utils.js"></script>
+  <script src="js/rules/state-rules/ohio.js"></script>
+  <script src="js/rules/state-rules/nevada.js"></script>
+  <script src="js/rules/state-rules/north-carolina.js"></script>
+  <script src="js/rules/court-profiles/ohio/wood-county-common-pleas.js"></script>
+  <script src="js/rules/court-profiles/ohio/wood-county-municipal.js"></script>
+  <script src="js/rules/court-registry.js"></script>
+  <script src="js/rules/rule-resolver.js"></script>
+  <script src="js/rules/rule-engine.js"></script>
+  <script src="js/recordwatch-rules.js"></script>
+  <script src="js/recordwatch-message-provider.js"></script>
+  <script src="js/recordwatch-notifications.js"></script>
+  <script src="js/recordwatch-bridge.js"></script>
+  <script src="js/recordwatch-monitor.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/user-store.js"></script>
+  <script src="js/saved-case-cards.js"></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard-ledger.js"></script>
+  <script>
+    
+    document.addEventListener("DOMContentLoaded", async function () {
+      if (!await RecordPathAuth.requireProtectedPageAsync("view your dashboard")) return;
+      const user = RecordPathUserStore.getCurrentUser();
+      let cases = [];
+      let showingCachedCases = false;
+      try {
+        cases = await RecordPathUserStore.getCasesAsync();
+        showingCachedCases = Boolean(cases && cases.isFallback);
+      } catch (error) {
+        console.warn("Supabase saved case load failed:", error);
+        cases = RecordPathUserStore.getCases();
+        showingCachedCases = cases.length > 0;
+      }
+      const latest = cases[cases.length - 1] || {};
+      const savedCaseStatus = document.getElementById("savedCaseStatus");
+      if (showingCachedCases && savedCaseStatus) savedCaseStatus.textContent = "Showing cached case data. Changes will sync when your connection is restored.";
+      document.getElementById("dashboardTitle").textContent = `Welcome, ${user.fullName || user.email}`;
+      document.getElementById("eligibilityStatus").textContent = latest.eligibilityStatus || "Not screened yet";
+      document.getElementById("eligibleDate").textContent = latest.estimatedEligibleDate ? `Estimated eligible date: ${latest.estimatedEligibleDate}` : "Complete screening to estimate a date.";
+      document.getElementById("savedCaseCount").textContent = String(cases.length);
+      document.getElementById("packetStatus").textContent = latest.packetStatus || "Not generated";
+      document.getElementById("paymentStatus").textContent = latest.paymentStatus || "Unpaid";
+      document.getElementById("recordWatchStatus").textContent = cases.length ? "Tracking saved cases" : "Ready to start";
+      const paymentPaid = String(latest.paymentStatus || "").toLowerCase().includes("paid");
+      const packetGenerated = String(latest.packetStatus || "").toLowerCase().includes("generated");
+      const nextAction = !cases.length ? ["Continue eligibility intake", "eligibility.html"] : !paymentPaid ? ["Review packet and payment", "packet.html"] : !packetGenerated ? ["Generate or download packet", "packet.html"] : ["Open RecordWatch", "recordwatch-dashboard.html"];
+      if (window.RecordWatchBridge && typeof RecordWatchBridge.syncExistingRecordPathData === "function") {
+        RecordWatchBridge.syncExistingRecordPathData();
+      }
+      document.getElementById("nextAction").textContent = nextAction[0];
+      document.getElementById("nextActionLink").href = nextAction[1];
+      if (window.RecordWatchBridge && typeof RecordWatchBridge.syncExistingRecordPathData === "function") RecordWatchBridge.syncExistingRecordPathData();
+      await loadRecordWatchData();
+      if (window.RecordWatchBridge && typeof RecordWatchBridge.syncExistingRecordPathData === "function") RecordWatchBridge.syncExistingRecordPathData();
+      renderRecordWatchWidget(latest);
+      const caseList = document.getElementById("caseList");
+      RecordPathSavedCaseCards.render(caseList, cases, { readOnly: showingCachedCases });
+      RecordPathSavedCaseCards.bind(caseList, async function (message) {
+        let refreshed = [];
+        let isFallback = false;
+        try {
+          refreshed = await RecordPathUserStore.getCasesAsync();
+          isFallback = Boolean(refreshed && refreshed.isFallback);
+        } catch (error) {
+          console.warn("Supabase saved case refresh failed:", error);
+          refreshed = RecordPathUserStore.getCases();
+          isFallback = refreshed.length > 0;
+        }
+        document.getElementById("savedCaseCount").textContent = String(refreshed.length);
+        const status = document.getElementById("savedCaseStatus");
+        if (status) status.textContent = isFallback ? "Showing cached case data. Changes will sync when your connection is restored." : (message || "");
+        RecordPathSavedCaseCards.render(caseList, refreshed, { readOnly: isFallback });
+      });
+    });
+    async function loadRecordWatchData(){
+      if (!window.RecordWatchNotifications || !RecordWatchNotifications.fetchRemoteData) return null;
+      const user = RecordPathUserStore.getCurrentUser();
+      const data = await RecordWatchNotifications.fetchRemoteData(user && user.id);
+      if (RecordWatchNotifications.fetchPremiumSubscription) {
+        try { localStorage.setItem("recordwatchPremiumSubscription", JSON.stringify(await RecordWatchNotifications.fetchPremiumSubscription())); } catch (error) {}
+      }
+      return data;
+    }
+    function renderRecordWatchWidget(latest){
+      const events = window.RecordWatchNotifications ? RecordWatchNotifications.loadEvents() : [];
+      const notifications = window.RecordWatchNotifications ? RecordWatchNotifications.loadNotifications() : [];
+      const localCases = window.RecordWatchMonitor ? RecordWatchMonitor.loadCases() : [];
+      const active = localCases.find((item) => item.court && (item.court.caseNumber === latest.caseNumber || item.id === latest.caseId || item.id === latest.id)) || localCases[0] || null;
+      const currentResult = active && window.RecordWatchBridge ? RecordWatchBridge.getCurrentEligibilityResult(active) : null;
+      if (active && window.RecordWatchBridge && typeof RecordWatchBridge.registerRecordWatchEligibility === "function") RecordWatchBridge.registerRecordWatchEligibility(active);
+      const currentEligibilityDate = (currentResult && currentResult.estimatedEligibleDate) || latest.estimatedEligibleDate || "";
+      const event = events.find((item) => active && item.case_id === active.id && item.eligibility_date === currentEligibilityDate) || events.find((item) => (item.case_id === latest.caseId || item.case_id === latest.id) && item.eligibility_date === currentEligibilityDate) || null;
+      const eligibilityDate = currentEligibilityDate || (event && event.eligibility_date) || "";
+      const confidence = (event && event.eligibility_confidence) || (active && RecordWatchRules.calculateEligibilityConfidence ? RecordWatchRules.calculateEligibilityConfidence(active).level : "");
+      const confidenceReason = (event && event.eligibility_confidence_reason) || (active && RecordWatchRules.calculateEligibilityConfidence ? RecordWatchRules.calculateEligibilityConfidence(active).reason : "RecordPathAI provides an estimate based on the information entered. Final eligibility depends on court rules and review.");
+      const days = window.RecordWatchNotifications ? RecordWatchNotifications.daysUntil(eligibilityDate) : null;
+      const subscriptions = window.RecordWatchNotifications ? RecordWatchNotifications.loadSubscriptions() : [];
+      let premiumSubscription = null;
+      try { premiumSubscription = JSON.parse(localStorage.getItem("recordwatchPremiumSubscription") || "null"); } catch (error) {}
+      const isPremium = window.RecordWatchMessageProvider && RecordWatchMessageProvider.isPremium(premiumSubscription);
+      const items = [
+        ["Eligibility Date", eligibilityDate ? formatRecordWatchDate(eligibilityDate) : "Complete screening to estimate a date."],
+        ["Countdown", days === null ? "Not available" : (days <= 0 ? "Eligible now" : days + " day(s)")],
+        ["Confidence", confidence ? confidence.replace(/_/g, " ") + " — " + confidenceReason : "Needs review"],
+        ["Premium RecordWatch", isPremium ? "Premium" : "Free"],
+        ["Next Reminder Date", days !== null && days > 180 ? "180-day reminder" : (days !== null && days > 90 ? "90-day reminder" : (days !== null && days > 30 ? "30-day reminder" : (days !== null && days > 7 ? "7-day reminder" : (days !== null && days >= 0 ? "Eligibility-day reminder" : "No alerts scheduled"))))],
+        ["Notification Status", isPremium ? "Email + SMS available" : (subscriptions.length ? "Free email reminders active" : "Not activated")],
+        ["Communication Preferences", subscriptions[0] && subscriptions[0].notify_sms ? "Premium SMS + email" : "Email reminders"],
+        ["Upcoming Alerts", days !== null && days > 0 ? "180, 90, 30, 7, and day-of reminders" : "No alerts scheduled"],
+        ["Reminder History", notifications.length ? notifications.slice(-3).map((item) => item.subject).filter(Boolean).join("; ") || "No reminders yet" : "No reminders yet"]
+      ];
+      document.getElementById("recordWatchWidget").innerHTML = items.map((item) => {
+        const isLong = String(item[1] || "").length > 40;
+        const valueClass = isLong ? "recordwatch-stat-value small" : "recordwatch-stat-value";
+        return `
+          <article class="recordwatch-stat-card">
+            <span class="recordwatch-stat-label">${escapeHtml(item[0])}</span>
+            <strong class="${valueClass}">
+              ${escapeHtml(item[1])}
+            </strong>
+          </article>
+        `;
+      }).join("");
+    }
+    function formatRecordWatchDate(value){ return window.RecordWatchRules ? RecordWatchRules.formatDate(value) : value; }
+    function escapeHtml(value){return String(value||"").replace(/[&<>'"]/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));}
+  </script>
+</body></html>
