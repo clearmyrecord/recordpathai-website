@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecordWatch | RecordPathAI</title>
+  <meta name="description" content="Track criminal case information from arrest through record relief, monitoring, and post-relief correction steps with RecordWatch." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="recordwatch-page">
+  <header class="site-header">
+    <div class="container">
+      <div class="header-utility" aria-label="Utility navigation">
+        <div class="language-access language-access-utility">
+          <span class="language-icon" aria-hidden="true">🌐</span>
+          <label for="language-selector" data-i18n="lang.label">Language Access</label>
+          <select id="language-selector" data-language-selector>
+            <option value="en" data-i18n="lang.english">English</option>
+            <option value="es" data-i18n="lang.spanish">Español</option>
+          </select>
+        </div>
+        <div class="auth-utility" data-auth-utility></div>
+      </div>
+
+      <div class="header-shell header-shell-modern">
+        <div class="header-inner">
+          <a href="index.html" class="site-brand">
+            <img
+              src="/assets/images/logo/RecordPathAI_Logo_Transparent.png"
+              alt="RecordPathAI"
+              class="site-logo"
+            >
+          </a>
+
+          <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+            <span class="menu-toggle-line"></span>
+            <span class="menu-toggle-line"></span>
+            <span class="menu-toggle-line"></span>
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+
+          <nav class="nav" id="primary-navigation" aria-label="Primary navigation">
+            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="how-it-works.html" data-i18n="nav.how">How It Works</a>
+            <a href="eligibility.html" data-i18n="nav.eligibility">Eligibility</a>
+            <a href="record-details.html" data-i18n="nav.recordDetails">Record Details</a>
+            <a href="recordwatch-dashboard.html" class="active" aria-current="page" data-i18n="nav.recordWatch">RecordWatch</a>
+            <a href="court-access.html" data-i18n="nav.courtAccess">Court Access</a>
+            <a href="eligibility.html" class="nav-cta" data-i18n="nav.checkEligibility">Start Free Eligibility Check</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">RecordWatch</span>
+          <h1>Never Miss Your Eligibility Date</h1>
+          <p>RecordWatch tracks your eligibility timeline and reminds you when it may be time to take action.</p>
+          <div class="hero-actions">
+            <a class="btn" href="eligibility.html">Start Eligibility Check</a>
+            <a class="btn secondary" href="recordwatch-dashboard.html">View Dashboard</a>
+            <a class="btn secondary" href="recordwatch-relief.html">Relief Actions</a>
+            <a class="btn secondary" href="recordwatch-intake.html">Advanced Case Intake</a>
+          </div>
+        </div>
+        <div class="dashboard-card" aria-label="RecordWatch workflow preview">
+          <div class="window-bar"><span></span><span></span><span></span></div>
+          <div class="visual-header"><div><p class="eyebrow-mini">Reminder workflow</p><h3>Eligibility tracking through filing</h3></div><div class="status-chip">Active</div></div>
+          <div class="progress-row">
+            <div class="progress-step active"><span>1</span><p>Intake</p></div><div class="progress-line"></div>
+            <div class="progress-step active"><span>2</span><p>Rules</p></div><div class="progress-line"></div>
+            <div class="progress-step active"><span>3</span><p>Monitor</p></div><div class="progress-line"></div>
+            <div class="progress-step"><span>4</span><p>Relief</p></div>
+          </div>
+          <div class="data-grid">
+            <div class="data-panel"><label>Eligibility</label><strong>Estimated status</strong></div>
+            <div class="data-panel"><label>Monitoring</label><strong>Supabase first with local fallback</strong></div>
+            <div class="data-panel wide"><label>Next action</label><strong>Generate packet, dispute request, or follow-up plan</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="recordwatch-section" id="recordwatch-enrollment">
+      <div class="container recordwatch-enrollment-card">
+        <div>
+          <span class="eyebrow-mini">RecordWatch reminders</span>
+          <h2>Never Miss Your Eligibility Date</h2>
+          <p>RecordWatch tracks your eligibility timeline and reminds you when it may be time to take action.</p>
+          <div class="recordwatch-plan-grid">
+            <article class="recordwatch-plan-card"><h3>Free Eligibility Reminders</h3><ul><li>Email reminders</li><li>Countdown dashboard</li><li>Saved eligibility date</li></ul></article>
+            <article class="recordwatch-plan-card premium"><h3>Premium RecordWatch</h3><p class="price-line"><strong>$4.99/month</strong><br><span>or $39/year</span></p><ul><li>SMS alerts</li><li>Filing reminders</li><li>Court status updates when available</li><li>Eligibility countdown</li><li>Missing-info reminders</li><li>Multi-case monitoring</li></ul><p class="meta-note">Automated court integrations will be added as supported courts come online.</p><div class="recordwatch-actions"><button class="btn" type="button" data-recordwatch-checkout="monthly">Start Monthly</button><button class="btn secondary" type="button" data-recordwatch-checkout="annual">Save with Annual</button></div></article>
+          </div>
+          <div class="recordwatch-countdown-panel">
+            <div><strong id="recordwatchEstimatedDate">Not available yet</strong><span>Estimated eligibility date</span></div>
+            <div><strong id="recordwatchCountdown">—</strong><span>Days Until Eligibility</span></div>
+          </div>
+        </div>
+        <div id="recordwatchCaseSummary" class="recordwatch-enrollment-form" aria-live="polite"></div>
+        <form id="recordwatchEnrollmentForm" class="recordwatch-enrollment-form">
+          <label>Email<input id="recordwatchEmail" type="email" placeholder="you@example.com" /></label>
+          <label>Mobile Phone<input id="recordwatchPhone" type="tel" placeholder="(555) 555-5555" /></label>
+          <label class="toggle-row"><input id="recordwatchNotifyEmail" type="checkbox" checked /> <span>Email Notifications</span></label>
+          <label class="toggle-row"><input id="recordwatchNotifySms" type="checkbox" /> <span>SMS Notifications</span></label>
+          <p id="recordwatchSmsNotice" class="meta-note" hidden>SMS alerts are part of Premium RecordWatch.</p>
+          <button class="btn" type="submit">Activate RecordWatch</button>
+          <p id="recordwatchEnrollmentStatus" class="muted"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="recordwatch-section">
+      <div class="container section-card">
+        <h2>What RecordWatch Does</h2>
+        <p>RecordWatch helps users reuse RecordPathAI intake data, organize charges and outcomes, estimate sealing or expungement eligibility, track missing requirements, prepare next-step action plans, and monitor whether records have been corrected after relief. Advanced Case Intake is optional for arrest, booking, prosecutor, judge, defense attorney, jail, and detailed monitoring information.</p>
+        <div class="recordwatch-grid-3">
+          <article class="mini-card"><h3>Collect early</h3><p>Capture arrest, booking, court, charge, and completion details in one local workflow.</p></article>
+          <article class="mini-card"><h3>Estimate next steps</h3><p>Use rules-based estimates to identify possible eligibility dates, missing requirements, and review flags.</p></article>
+          <article class="mini-card"><h3>Monitor corrections</h3><p>Track court dockets, repositories, background-check companies, data brokers, and verified updates.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="recordwatch-section">
+      <div class="container section-card">
+        <h2>Four-Layer Workflow</h2>
+        <div class="recordwatch-grid-4">
+          <article class="recordwatch-card"><span class="eyebrow-mini">Layer 1</span><h3>Unified Intake Bridge</h3><p>Personal, case, charge, outcome, and completion data are captured from the existing RecordPathAI workflow first.</p></article>
+          <article class="recordwatch-card"><span class="eyebrow-mini">Layer 2</span><h3>Rules &amp; Eligibility Engine</h3><p>Estimated waiting periods, missing requirements, risk flags, and recommended status.</p></article>
+          <article class="recordwatch-card"><span class="eyebrow-mini">Layer 3</span><h3>Monitoring Engine</h3><p>Saved checklists for court, repository, background-check, data-broker, and follow-up tasks.</p></article>
+          <article class="recordwatch-card"><span class="eyebrow-mini">Layer 4</span><h3>Automated Relief Engine</h3><p>Action plans, packet recommendations, packet prefill, and dispute/correction letters.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="recordwatch-section">
+      <div class="container section-card">
+        <h2>Why This Matters</h2>
+        <p>Court systems, state repositories, background-check companies, data brokers, and employers are fragmented. A person may be eligible for relief years before they know it, and even after relief is granted, private databases may still show outdated information.</p>
+      </div>
+    </section>
+
+    <section class="recordwatch-section">
+      <div class="container disclaimer-box">
+        <strong>Disclaimer:</strong> RecordWatch reminders are based on the information you provide. RecordPathAI is not a law firm and does not guarantee eligibility or court approval.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container"><div class="footer-shell"><div><div class="footer-brand">RecordPathAI</div><div class="footer-copy">Guided record relief workflow and court packet preparation.</div><div class="footer-disclaimer">RecordPathAI is not a law firm and does not provide legal advice. Documents are generated based on user input and publicly available forms.</div></div><div class="footer-links"><a href="index.html">Home</a><a href="how-it-works.html">How It Works</a><a href="eligibility.html">Eligibility</a><a href="recordwatch.html" data-i18n="nav.recordWatch">RecordWatch</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="disclaimer.html">Disclaimer</a></div></div></div></footer>
+  <script src="js/packet-data-bridge.js"></script>
+  <script src="js/rules/date-utils.js"></script>
+  <script src="js/rules/state-rules/ohio.js"></script>
+  <script src="js/rules/state-rules/nevada.js"></script>
+  <script src="js/rules/state-rules/north-carolina.js"></script>
+  <script src="js/rules/court-profiles/ohio/wood-county-common-pleas.js"></script>
+  <script src="js/rules/court-profiles/ohio/wood-county-municipal.js"></script>
+  <script src="js/rules/court-registry.js"></script>
+  <script src="js/rules/rule-resolver.js"></script>
+  <script src="js/rules/rule-engine.js"></script>
+  <script src="js/recordwatch-rules.js"></script>
+  <script src="js/recordwatch-message-provider.js"></script>
+  <script src="js/recordwatch-notifications.js"></script>
+  <script src="js/recordwatch-bridge.js"></script>
+  <script src="js/recordwatch-monitor.js"></script>
+  <script src="js/supabase-client.js"></script><script src="js/user-store.js"></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      var urlCaseId = new URLSearchParams(window.location.search).get("caseId");
+      if (urlCaseId && window.RecordPathUserStore) {
+        var found = await RecordPathUserStore.setActiveCase(urlCaseId);
+        if (!found) document.querySelector("main")?.insertAdjacentHTML("afterbegin", '<section class="page-section"><div class="container"><div class="empty-state case-page-error"><h2>We could not find that saved case.</h2><p>Please choose another case from your dashboard.</p><a class="btn" href="dashboard.html">Back to dashboard</a></div></div></section>');
+      }
+      function esc(value) { return String(value || "").replace(/[&<>"']/g, function (char) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char] || char; }); }
+      function row(label, value) { return '<div class="recordwatch-panel-item"><strong>' + esc(label) + '</strong><span>' + esc(value || "Not entered") + '</span></div>'; }
+      function recordWatchShapeFromDraft(draft) {
+        if (!draft) return null;
+        var charge = (draft.charges || [])[0] || {};
+        var caseFacts = draft.case || {};
+        return {
+          id: draft.savedCaseId || draft.localDraftId || draft.id,
+          personal: draft.person || {},
+          court: {
+            caseState: draft.court && draft.court.state || caseFacts.caseState,
+            county: draft.court && draft.court.county || caseFacts.county,
+            courtName: draft.court && (draft.court.name || draft.court.courtName) || caseFacts.courtName,
+            caseNumber: draft.court && draft.court.caseNumber || caseFacts.caseNumber,
+            judge: draft.court && draft.court.judge
+          },
+          charges: (draft.charges || []).map(function (item) { return { chargeName: item.charge_name || item.chargeName, statuteCode: item.offense_code || item.charge_code, chargeLevel: item.offense_level || item.degree || item.level, degree: item.offense_level || item.degree || item.level }; }),
+          outcome: {
+            outcome: caseFacts.outcome || charge.disposition || charge.final_disposition,
+            dispositionDate: caseFacts.dispositionDate || charge.disposition_date,
+            dischargeDate: caseFacts.dischargeDate || charge.discharge_date,
+            completionDate: caseFacts.dischargeDate || charge.discharge_date,
+            finalDischargeDate: caseFacts.finalDischargeDate || caseFacts.dischargeDate || charge.discharge_date
+          },
+          eligibility: draft.eligibility || {},
+          recordwatch: draft.recordwatch || {}
+        };
+      }
+      if (window.RecordWatchBridge) RecordWatchBridge.syncExistingRecordPathData();
+      var currentDraft = window.RecordPathUserStore && RecordPathUserStore.getCurrentRecordWatchCase ? await RecordPathUserStore.getCurrentRecordWatchCase() : null;
+      var active = recordWatchShapeFromDraft(currentDraft) || (window.RecordWatchBridge && RecordWatchBridge.getOrCreateActiveCase());
+      var date = active && (active.eligibility && (active.eligibility.estimatedEligibleDate || active.eligibility.eligibilityDate) || (window.RecordWatchRules ? RecordWatchRules.calculateEligibilityDate(active) : ""));
+      var days = window.RecordWatchNotifications ? RecordWatchNotifications.daysUntil(date) : null;
+      var profile = Object.assign({}, active && active.personal || {}, window.RecordWatchMonitor ? RecordWatchMonitor.loadProfile() : {});
+      var prefs = currentDraft && currentDraft.recordwatch || {};
+      document.getElementById("recordwatchEmail").value = prefs.email || profile.email || localStorage.getItem("email") || "";
+      document.getElementById("recordwatchPhone").value = prefs.phone || profile.phone || localStorage.getItem("phone") || "";
+      document.getElementById("recordwatchNotifyEmail").checked = prefs.emailNotifications !== false;
+      document.getElementById("recordwatchNotifySms").checked = Boolean(prefs.smsNotifications);
+      document.getElementById("recordwatchEstimatedDate").textContent = window.RecordWatchRules ? RecordWatchRules.formatDate(date) : "Not available yet";
+      document.getElementById("recordwatchCountdown").textContent = days === null ? "—" : (days <= 0 ? "Eligible now" : String(days));
+      var summary = document.getElementById("recordwatchCaseSummary");
+      if (summary) {
+        if (active && (active.court && (active.court.caseNumber || active.court.courtName) || active.charges && active.charges.length)) {
+          var firstCharge = active.charges && active.charges[0] || {};
+          summary.innerHTML = '<h3>Monitoring this saved case</h3><div class="recordwatch-panel-grid">' +
+            row("Case number", active.court.caseNumber) + row("Court", active.court.courtName) + row("County / State", [active.court.county, active.court.caseState].filter(Boolean).join(", ")) +
+            row("Charge", firstCharge.chargeName) + row("Statute / level", [firstCharge.statuteCode, firstCharge.degree || firstCharge.chargeLevel].filter(Boolean).join(" — ")) + row("Outcome", active.outcome && active.outcome.outcome) + '</div>';
+        } else {
+          summary.innerHTML = '<h3>No saved case found</h3><p class="meta-note">Start with Eligibility Check or Enter Record Details so RecordWatch can monitor your case without re-entry.</p><div class="recordwatch-actions"><a class="btn" href="eligibility.html">Start with Eligibility Check</a><a class="btn secondary" href="record-details.html">Enter Record Details</a></div>';
+        }
+      }
+      var smsToggle = document.getElementById("recordwatchNotifySms");
+      var smsNotice = document.getElementById("recordwatchSmsNotice");
+      smsToggle.addEventListener("change", function () { smsNotice.hidden = !smsToggle.checked; });
+      document.getElementById("recordwatchEnrollmentForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var wantsSms = document.getElementById("recordwatchNotifySms").checked;
+        var recordwatchPrefs = {
+          email: document.getElementById("recordwatchEmail").value,
+          phone: document.getElementById("recordwatchPhone").value,
+          emailNotifications: document.getElementById("recordwatchNotifyEmail").checked,
+          smsNotifications: wantsSms,
+          plan: "free",
+          status: "active",
+          updatedAt: new Date().toISOString(),
+          createdAt: prefs.createdAt || new Date().toISOString()
+        };
+        localStorage.setItem("recordpathai_recordwatch_draft", JSON.stringify(recordwatchPrefs));
+        localStorage.setItem("recordpathai_pending_recordwatch_enrollment", JSON.stringify(Object.assign({ caseId: active && active.id }, recordwatchPrefs)));
+        if (window.RecordPathUserStore && RecordPathUserStore.saveCurrentCaseDraft) {
+          RecordPathUserStore.saveCurrentCaseDraft({ recordwatch: recordwatchPrefs, recordWatchStatus: "active", eligibilityDate: date, estimatedEligibleDate: date }, { network: true }).catch(function (error) { console.warn("RecordWatch draft sync skipped:", error); });
+        }
+        var subscription = RecordWatchNotifications.registerSubscription({
+          userId: (window.RecordPathUserStore && RecordPathUserStore.getCurrentUser() && RecordPathUserStore.getCurrentUser().id) || (profile.email || profile.fullName || "demo-user"),
+          caseId: active && active.id || "demo-case",
+          email: document.getElementById("recordwatchEmail").value,
+          phone: document.getElementById("recordwatchPhone").value,
+          notify_email: document.getElementById("recordwatchNotifyEmail").checked,
+          notify_sms: wantsSms,
+          plan_type: "free",
+          premium_active: false,
+          eligibilityDate: date
+        });
+        var confidence = active && RecordWatchRules.calculateEligibilityConfidence ? RecordWatchRules.calculateEligibilityConfidence(active) : { level: "medium", reason: "Estimate based on information entered." };
+        if (date) RecordWatchNotifications.registerEligibilityEvent({ userId: subscription.user_id, caseId: subscription.case_id, eligibilityDate: date, eligibilityReason: active && RecordWatchRules.calculateCaseStatus(active), waitingPeriod: active && RecordWatchRules.getRecommendedStatus(active), eligibilityConfidence: confidence.level, eligibilityConfidenceReason: confidence.reason });
+        if (window.RecordPathUserStore && active && active.id) {
+          RecordPathUserStore.updateCase(active.id, { recordWatchStatus: "active", eligibilityDate: date, estimatedEligibleDate: date }).catch(function (error) { console.warn("RecordWatch status sync skipped:", error); });
+        }
+        document.getElementById("recordwatchEnrollmentStatus").textContent = wantsSms ? "Free RecordWatch is active with email reminders. SMS alerts require Premium RecordWatch." : "Free RecordWatch is active with email reminders and dashboard countdown.";
+      });
+    });
+  </script>
+
+</body>
+</html>
