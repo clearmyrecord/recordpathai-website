@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Search Your Court Records | RecordPathAI</title>
+<meta name="description" content="Find official court case-search portals in Ohio, Nevada, and Florida. Search your own records at the source and explore possible record-relief options.">
+<link rel="canonical" href="https://recordpathai.com/self-search.html">
+<meta property="og:title" content="Search Your Court Records | RecordPathAI">
+<meta property="og:url" content="https://recordpathai.com/self-search.html">
+<style>
+:root{color-scheme:light;--navy:#081d30;--blue:#1f7ec1;--red:#ed3245;--ink:#122335;--muted:#586b7d;--line:#dce5eb;--bg:#f4f7fb;--white:#fff;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink)}
+a{color:#005ca0}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #6aabdb;outline-offset:2px}
+header{background:var(--navy);color:white;padding:18px max(18px,calc((100vw - 1080px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+header a{color:white;text-decoration:none}.brand{font-size:1.4rem;font-weight:850}.brand span{color:#62b2fc}header nav{display:flex;gap:20px;flex-wrap:wrap;font-size:.88rem}
+main{max-width:1080px;padding:30px 18px 65px;margin:auto}
+.hero{padding:16px 0 18px;max-width:850px}
+.eyebrow{font-size:.77rem;letter-spacing:.13em;font-weight:800;text-transform:uppercase;color:#26629b}
+h1{font-size:clamp(2rem,4.8vw,3.5rem);line-height:1.12;margin:10px 0}h2{font-size:1.3rem;margin-top:0}
+p{line-height:1.58}.lead{font-size:1.08rem;color:#3c5165}.muted{color:var(--muted)}.small{font-size:.83rem}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);margin:20px 0;box-shadow:0 9px 25px rgba(28,50,78,.045)}
+.notice{background:#edf4fb;border-left:4px solid #3578b5;padding:14px 18px;border-radius:7px;font-size:.94rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:15px}
+label{display:block;font-size:.93rem;font-weight:750;margin:0 0 7px}
+input,select{border:1px solid #b3c3d0;border-radius:9px;padding:13px 12px;width:100%;font:inherit;color:inherit;background:white}
+input::placeholder{color:#768795}.radio{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0 20px}
+.radio label{font-weight:550;display:flex;align-items:center;gap:9px;margin:0}
+.radio input{width:auto}button,.btn{border:0;border-radius:9px;background:#d9233e;color:white;font:inherit;font-weight:750;padding:13px 18px;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+.btn-alt{background:var(--navy)}.btn-quiet{background:#eaf1f8;color:#193e60}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.hidden{display:none!important}
+.result{border:1px solid #d8e4ee;background:#fbfdff;border-radius:12px;padding:18px;margin-top:16px}
+.result h3{margin:0 0 8px;font-size:1.12rem}.result p{margin:.4rem 0}
+.value{font-weight:700;word-break:break-word}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+.step{padding:3px 14px;border-left:3px solid #5695c9}
+.step strong{display:block;margin-bottom:4px}.step p{margin:0;color:var(--muted);font-size:.91rem}
+footer{border-top:1px solid #d9e3ec;text-align:center;padding:27px 18px;color:var(--muted);font-size:.83rem}
+@media(max-width:600px){header{padding:16px}main{padding-top:16px}.actions .btn,.actions button{width:100%}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="index.html">RecordPath<span>AI</span></a>
+<nav aria-label="Main navigation">
+<a href="index.html">Home</a>
+<a href="eligibility.html">Free Eligibility Check</a>
+<a href="pilot-demo.html">Explore Demo</a>
+</nav>
+</header>
+<main>
+<section class="hero">
+<div class="eyebrow">Free · No account required · Official sources</div>
+<h1>Find your own court records.</h1>
+<p class="lead">Start with your state and court, then open the official court website to look up your name or case number. Once you find a case, come back to check possible sealing, expungement, or correction options.</p>
+<div class="notice"><strong>How this works:</strong> RecordPathAI finds the appropriate official court search for you. Your actual case results appear on the court's website, <strong>not inside RecordPathAI</strong>. The Wood County historical extracts are not published or searchable here.</div>
+</section>
+<section class="panel" aria-labelledby="search-heading">
+<h2 id="search-heading">Start your court-record search</h2>
+<form id="selfSearch" novalidate>
+<div class="grid">
+<div><label for="state">State</label><select id="state" required><option value="">Choose a state</option><option value="OH">Ohio</option><option value="NV">Nevada</option><option value="FL">Florida</option></select></div>
+<div><label for="court">Court or area</label><select id="court" required disabled><option value="">Select a state first</option></select></div>
+</div>
+<fieldset style="border:0;padding:0;margin:20px 0 0">
+<legend style="font-weight:750">What do you know?</legend>
+<div class="radio">
+<label><input type="radio" name="mode" value="name" checked> My name</label>
+<label><input type="radio" name="mode" value="case"> My case number</label>
+</div>
+</fieldset>
+<div class="grid" id="nameFields">
+<div><label for="first">First name</label><input id="first" name="first" type="text" autocomplete="given-name" maxlength="70" placeholder="First name"></div>
+<div><label for="last">Last name</label><input id="last" name="last" type="text" autocomplete="family-name" maxlength="70" placeholder="Last name"></div>
+</div>
+<div id="caseFields" class="hidden">
+<label for="caseNumber">Case number</label><input id="caseNumber" name="caseNumber" maxlength="120" placeholder="As shown on your court documents">
+</div>
+<div class="actions">
+<button type="submit">Find my official court search</button>
+<button type="reset" class="btn-quiet">Clear</button>
+</div>
+</form>
+<p id="message" role="status" aria-live="polite" class="small muted">No information is sent to RecordPathAI when you fill out this form. Search details are used only in your browser to guide you to the official portal.</p>
+<div id="matchedSource" class="hidden" aria-live="polite"></div>
+</section>
+<section class="panel">
+<h2>After you find a case</h2>
+<div class="steps">
+<div class="step"><strong>1. Confirm the match</strong><p>Check identifying details on the official court portal. A matching name alone may not identify you.</p></div>
+<div class="step"><strong>2. Read the outcome</strong><p>Look for the final disposition, filing date, and any subsequent court orders.</p></div>
+<div class="step"><strong>3. Check your options</strong><p>Use RecordPathAI's independent eligibility workflow. Court orders and filing requirements still control.</p></div>
+<div class="step"><strong>4. Correct outdated data</strong><p>Ask the relevant records holder about errors or outdated listings; no payment is required to report errors on our site.</p></div>
+</div>
+<div class="actions"><a class="btn btn-alt" href="eligibility.html">Free eligibility check</a><a class="btn btn-quiet" href="mugshot-removal.html">Correction or removal options</a></div>
+</section>
+<section class="panel">
+<h2>Important information</h2>
+<p class="muted">Public court coverage varies. Sealed, expunged, confidential, and older cases may not appear; a blank search does not establish that no record exists. Each official court operates independently and may require its own search criteria or a CAPTCHA. No court has endorsed RecordPathAI. Our service is informational and must not be used for employment, tenant, credit, insurance, or other regulated screening decisions.</p>
+</section>
+</main>
+<footer>RecordPathAI.com · Independent record-relief guidance · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms</a> · <a href="mailto:matt@recordpathai.com">Support</a></footer>
+<script>
+(function(){
+"use strict";
+const courts={
+OH:[
+{id:"wood-cp",name:"Wood County Common Pleas",url:"https://clerkofcourt.co.wood.oh.us/169/Dockets-Online",scope:"Wood County felony-level Common Pleas records; use the clerk's CourtView link.",tip:"For a name search, follow the court's instructions. An older or restricted case may be unavailable online."},
+{id:"bg-muni",name:"Bowling Green Municipal Court",url:"https://www.bgcourt.org/",scope:"Bowling Green Municipal Court; separate from Wood County Common Pleas.",tip:"Use the municipal court's case search or contact instructions."},
+{id:"oh-other",name:"Other Ohio court",url:"https://www.supremecourt.ohio.gov/courts/judicial-system/ohio-trial-courts/",scope:"Find the correct county, municipal, or Common Pleas court in Ohio.",tip:"Select your court from the official Ohio court directory."}
+],
+NV:[
+{id:"clark-district",name:"Clark County District Court",url:"https://www.clarkcountycourts.us/Anonymous/default.aspx",scope:"Eighth Judicial District Court civil and criminal records.",tip:"Choose District Civil/Criminal Records in the official portal."},
+{id:"lv-justice",name:"Las Vegas Justice Court",url:"https://lvjcpa.clarkcountynv.gov/Anonymous/default.aspx",scope:"Las Vegas Township Justice Court cases.",tip:"Choose criminal records from the official Odyssey Public Access page."},
+{id:"nv-other",name:"Other Nevada court",url:"https://nvcourts.gov/aoc/how_do_i/find_a_court",scope:"Find other district, justice, or municipal courts in Nevada.",tip:"Select the appropriate court and follow its public-record instructions."}
+],
+FL:[
+{id:"orange",name:"Orange County Clerk of Courts",url:"https://myeclerk.myorangeclerk.com/cases/search",scope:"Orange County Circuit and County Court public case search.",tip:"Enter the first and last name separately or use a case number. Anonymous visitors must complete a CAPTCHA."},
+{id:"fl-other",name:"Other Florida court",url:"https://www.flcourts.gov/Florida-Courts",scope:"Find the relevant Florida court and local clerk.",tip:"Choose the county clerk that handled your case and use its records search."}
+]
+};
+const $=id=>document.getElementById(id);
+const state=$("state"),court=$("court"),form=$("selfSearch"),result=$("matchedSource"),message=$("message");
+const nameFields=$("nameFields"),caseFields=$("caseFields");
+function mode(){return document.querySelector('input[name="mode"]:checked').value}
+function resetResults(){result.textContent="";result.classList.add("hidden")}
+function updateMode(){
+const asCase=mode()==="case";
+nameFields.classList.toggle("hidden",asCase);
+caseFields.classList.toggle("hidden",!asCase);
+resetResults();
+}
+function updateCourt(){
+court.replaceChildren();
+const opts=courts[state.value]||[];
+court.disabled=!opts.length;
+const prompt=document.createElement("option");prompt.value="";prompt.textContent=opts.length?"Choose the court":"Select a state first";court.append(prompt);
+for(const opt of opts){const e=document.createElement("option");e.value=opt.id;e.textContent=opt.name;court.append(e)}
+resetResults();
+}
+state.addEventListener("change",updateCourt);
+court.addEventListener("change",resetResults);
+document.querySelectorAll('input[name="mode"]').forEach(input=>input.addEventListener("change",updateMode));
+form.addEventListener("reset",()=>{setTimeout(()=>{updateCourt();updateMode();message.textContent="Search details cleared."},0)});
+function addText(parent,tag,value,cls){
+const el=document.createElement(tag);el.textContent=value;if(cls)el.className=cls;parent.append(el);return el;
+}
+function button(label,cls,onClick){
+const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=label;b.addEventListener("click",onClick);return b;
+}
+form.addEventListener("submit",event=>{
+event.preventDefault();resetResults();
+const selected=(courts[state.value]||[]).find(c=>c.id===court.value);
+if(!selected){message.textContent="Choose your state and court to continue.";return}
+const isCase=mode()==="case";
+const first=$("first").value.trim(),last=$("last").value.trim(),number=$("caseNumber").value.trim();
+if(isCase?number.length<2:first.length<2||last.length<2){
+message.textContent=isCase?"Enter your case number.":"Enter both your first and last name.";return
+}
+const query=isCase?number:(first+" "+last);
+const card=document.createElement("div");card.className="result";
+addText(card,"h3",selected.name);
+addText(card,"p",selected.scope);
+const instruction=document.createElement("p");instruction.className="muted";instruction.textContent=selected.tip;card.append(instruction);
+addText(card,"p",(isCase?"Your case number: ":"Your name: ")+query,"value");
+const buttons=document.createElement("div");buttons.className="actions";
+const copy=button("Copy my "+(isCase?"case number":"name"),"btn-quiet",async()=>{
+try{
+if(!navigator.clipboard||!window.isSecureContext)throw new Error("Clipboard unavailable");
+await navigator.clipboard.writeText(query);
+message.textContent="Copied. Paste it into the official court search.";
+}catch(err){message.textContent="Automatic copy is unavailable. Select the displayed text and copy it manually."}
+});
+const open=document.createElement("a");open.className="btn";open.href=selected.url;open.target="_blank";open.rel="noopener noreferrer";
+open.textContent="Open official court search";
+buttons.append(copy,open);card.append(buttons);
+addText(card,"p","The court opens in a new tab. Enter your search there; RecordPathAI has not looked up a case or confirmed a match.","small muted");
+result.append(card);result.classList.remove("hidden");
+message.textContent="Your official court source is ready below. No case information has been sent or retrieved.";
+result.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+})();
+</script>
+</body></html>
