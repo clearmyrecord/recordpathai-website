@@ -149,36 +149,78 @@ const el=document.createElement(tag);el.textContent=value;if(cls)el.className=cl
 function button(label,cls,onClick){
 const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=label;b.addEventListener("click",onClick);return b;
 }
-form.addEventListener("submit",event=>{
-event.preventDefault();resetResults();
-const selected=(courts[state.value]||[]).find(c=>c.id===court.value);
-if(!selected){message.textContent="Choose your state and court to continue.";return}
-const isCase=mode()==="case";
-const first=$("first").value.trim(),last=$("last").value.trim(),number=$("caseNumber").value.trim();
-if(isCase?number.length<2:first.length<2||last.length<2){
-message.textContent=isCase?"Enter your case number.":"Enter both your first and last name.";return
+const API="https://recordpathai-private-search-backend.onrender.com";
+async function woodSearch(card,query,isCase){
+ const state=document.createElement("p");state.className="muted";
+ state.textContent="Checking whether Wood County has approved searchable records...";
+ card.append(state);
+ try{
+  // Check availability without submitting someone's personal search terms.
+  const readiness=await fetch(API+"/ready",{method:"GET",cache:"no-store",signal:AbortSignal.timeout(8000)});
+  const info=await readiness.json();
+  if(!info.ready||!info.publicSearchEnabled){
+   state.textContent="RecordPathAI's Wood County case index is not available yet. The court has not supplied an authorized historical, current-status-verified dataset for public search. This is not a 'no record found' result.";
+   return;
+  }
+  const params=new URLSearchParams({state:"OH",county:"wood",mode:isCase?"case":"name",query});
+  const response=await fetch(API+"/api/record-search?"+params.toString(),{method:"GET",cache:"no-store",signal:AbortSignal.timeout(12000)});
+  if(!response.ok)throw new Error("Search temporarily unavailable");
+  const payload=await response.json();
+  const matches=Array.isArray(payload.verifiedMatches)?payload.verifiedMatches:[];
+  state.textContent=matches.length
+    ?"RecordPathAI found "+matches.length+" verified, approved Wood County case result(s) below. Confirm identity before proceeding."
+    :"No verified, approved case was returned by the current RecordPathAI index. That does not mean no court record exists.";
+  for(const hit of matches){
+   const item=document.createElement("div");item.className="result";
+   addText(item,"h3","Case "+String(hit.caseNumber||"Unknown"));
+   if(hit.filingDate)addText(item,"p","Filed: "+String(hit.filingDate).slice(0,10));
+   if(hit.terminationDescription)addText(item,"p","Last recorded disposition: "+hit.terminationDescription);
+   if(hit.terminationDate)addText(item,"p","Disposition date: "+String(hit.terminationDate).slice(0,10));
+   for(const defendant of (hit.defendants||[])){
+    addText(item,"p","Named party: "+defendant.name,"value");
+    for(const ch of (defendant.charges||[]))
+     addText(item,"p",String(ch.description||"Charge")+" — "+String(ch.disposition||"Disposition unavailable"));
+   }
+   addText(item,"p","Please confirm this is your case. This is not a legal eligibility determination.","small muted");
+   card.append(item);
+  }
+ }catch(err){
+  state.textContent="The private record index cannot be reached or is unavailable. No court case search result could be verified. You can use the official court source below instead.";
+ }
 }
-const query=isCase?number:(first+" "+last);
-const card=document.createElement("div");card.className="result";
-addText(card,"h3",selected.name);
-addText(card,"p",selected.scope);
-const instruction=document.createElement("p");instruction.className="muted";instruction.textContent=selected.tip;card.append(instruction);
-addText(card,"p",(isCase?"Your case number: ":"Your name: ")+query,"value");
-const buttons=document.createElement("div");buttons.className="actions";
-const copy=button("Copy my "+(isCase?"case number":"name"),"btn-quiet",async()=>{
-try{
-if(!navigator.clipboard||!window.isSecureContext)throw new Error("Clipboard unavailable");
-await navigator.clipboard.writeText(query);
-message.textContent="Copied. Paste it into the official court search.";
-}catch(err){message.textContent="Automatic copy is unavailable. Select the displayed text and copy it manually."}
-});
-const open=document.createElement("a");open.className="btn";open.href=selected.url;open.target="_blank";open.rel="noopener noreferrer";
-open.textContent="Open official court search";
-buttons.append(copy,open);card.append(buttons);
-addText(card,"p","The court opens in a new tab. Enter your search there; RecordPathAI has not looked up a case or confirmed a match.","small muted");
-result.append(card);result.classList.remove("hidden");
-message.textContent="Your official court source is ready below. No case information has been sent or retrieved.";
-result.scrollIntoView({behavior:"smooth",block:"nearest"});
+form.addEventListener("submit",async event=>{
+ event.preventDefault();resetResults();
+ const selected=(courts[state.value]||[]).find(c=>c.id===court.value);
+ if(!selected){message.textContent="Choose your state and court to continue.";return}
+ const isCase=mode()==="case";
+ const first=$("first").value.trim(),last=$("last").value.trim(),number=$("caseNumber").value.trim();
+ if(isCase?number.length<2:first.length<2||last.length<2){
+  message.textContent=isCase?"Enter your case number.":"Enter both your first and last name.";return;
+ }
+ const query=isCase?number:(first+" "+last);
+ const card=document.createElement("div");card.className="result";
+ addText(card,"h3",selected.name);
+ addText(card,"p",selected.scope);
+ const instruction=document.createElement("p");instruction.className="muted";instruction.textContent=selected.tip;card.append(instruction);
+ if(selected.id==="wood-cp")await woodSearch(card,query,isCase);
+ else addText(card,"p","This court has no authorized RecordPathAI case index yet. The official court search is the available source; this is not a record match.","muted");
+ const detail= document.createElement("details");
+ const summary=document.createElement("summary");summary.textContent="Show the search terms I entered";
+ const p=document.createElement("p");p.textContent=query;
+ detail.append(summary,p);card.append(detail);
+ const buttons=document.createElement("div");buttons.className="actions";
+ const copy=button("Copy my "+(isCase?"case number":"name"),"btn-quiet",async()=>{
+  try{
+   if(!navigator.clipboard||!window.isSecureContext)throw new Error("Clipboard unavailable");
+   await navigator.clipboard.writeText(query);
+   message.textContent="Copied. Paste it into the official court search.";
+  }catch(err){message.textContent="Automatic copy unavailable. Select the displayed text and copy it manually."}
+ });
+ const open=document.createElement("a");open.className="btn";open.href=selected.url;open.target="_blank";open.rel="noopener noreferrer";
+ open.textContent="Open official court records";buttons.append(copy,open);card.append(buttons);
+ result.append(card);result.classList.remove("hidden");
+ message.textContent=selected.id==="wood-cp"?"Wood County record index availability checked.":"Official court location identified; RecordPathAI has not searched that court's records.";
+ result.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 })();
 </script>
