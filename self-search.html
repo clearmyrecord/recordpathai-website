@@ -54,7 +54,7 @@ footer{border-top:1px solid #d9e3ec;text-align:center;padding:27px 18px;color:va
 <div class="eyebrow">Free · No account required · Official sources</div>
 <h1>Find your own court records.</h1>
 <p class="lead">Start with your state and court, then open the official court website to look up your name or case number. Once you find a case, come back to check possible sealing, expungement, or correction options.</p>
-<div class="notice"><strong>How this works:</strong> RecordPathAI finds the appropriate official court search for you. Your actual case results appear on the court's website, <strong>not inside RecordPathAI</strong>. The Wood County historical extracts are not published or searchable here.</div>
+<div class="notice"><strong>How this works:</strong> RecordPathAI finds the appropriate official court search for you. Official court portals provide current case details. Wood County results are returned only when an authorized, current, individually approved index is active. The historical extracts are not currently available for public search.</div>
 </section>
 <section class="panel" aria-labelledby="search-heading">
 <h2 id="search-heading">Start your court-record search</h2>
@@ -82,7 +82,7 @@ footer{border-top:1px solid #d9e3ec;text-align:center;padding:27px 18px;color:va
 <button type="reset" class="btn-quiet">Clear</button>
 </div>
 </form>
-<p id="message" role="status" aria-live="polite" class="small muted">No information is sent to RecordPathAI when you fill out this form. Search details are used only in your browser to guide you to the official portal.</p>
+<p id="message" role="status" aria-live="polite" class="small muted">Typing into this form does not send your information anywhere. After submission, a Wood County name or case number is sent to our private search service only if its approved index is enabled. Otherwise the search remains in your browser and you can open the official court portal.</p>
 <div id="matchedSource" class="hidden" aria-live="polite"></div>
 </section>
 <section class="panel">
@@ -162,8 +162,12 @@ async function woodSearch(card,query,isCase){
    state.textContent="RecordPathAI's Wood County case index is not available yet. The court has not supplied an authorized historical, current-status-verified dataset for public search. This is not a 'no record found' result.";
    return;
   }
-  const params=new URLSearchParams({state:"OH",county:"wood",mode:isCase?"case":"name",query});
-  const response=await fetch(API+"/api/record-search?"+params.toString(),{method:"GET",cache:"no-store",signal:AbortSignal.timeout(12000)});
+  const response=await fetch(API+"/api/record-search",{
+   method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({state:"OH",county:"wood",mode:isCase?"case":"name",query}),
+   cache:"no-store",referrerPolicy:"no-referrer",credentials:"omit",
+   signal:AbortSignal.timeout(12000)
+  });
   if(!response.ok)throw new Error("Search temporarily unavailable");
   const payload=await response.json();
   const matches=Array.isArray(payload.verifiedMatches)?payload.verifiedMatches:[];
