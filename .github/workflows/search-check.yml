@@ -1,0 +1,28 @@
+name: Record search frontend checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check js/recordpath-home.js
+      - name: Check inline search page JavaScript
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs'),vm = require('node:vm'),assert = require('node:assert/strict');
+          const html = fs.readFileSync('self-search.html','utf8');
+          const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
+          assert(scripts.length > 0,'No inline search script present');
+          for(const [,source] of scripts) new vm.Script(source,{filename:'self-search-inline.js'});
+          assert(html.includes('method:"POST"'),'Approved searches must use POST');
+          assert(!html.includes('api/record-search?"'),'Never put a person name in a search URL');
+          console.log('Search page script and transport contract checked.');
+          NODE
