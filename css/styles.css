@@ -2982,3 +2982,63 @@ body.home-page .cta .btn {
   .saved-case-card { padding: 20px; }
   .saved-case-actions .btn { width: 100%; justify-content: center; }
 }
+
+
+/* Conversion-first shared design — matches eligibility frontend */
+.site-header .site-brand-text { display:inline-flex;align-items:center;min-width:0;font-size:clamp(23px,2.6vw,30px);font-weight:900;letter-spacing:-.045em;color:#233d70;text-decoration:none;white-space:nowrap; }
+.site-header .site-brand-text span { color:#4f88e8; }
+.site-header .nav a.active { color:#1a4d95;background:#eaf1ff; }
+.site-header .nav .nav-cta { background:#4f88e8;color:#fff;box-shadow:0 8px 22px rgba(50,94,168,.17);white-space:nowrap; }
+.site-header .nav .nav-cta:hover { background:#386fc9;color:#fff; }
+.conversion-home,.conversion-resources,.entrepreneurship-page { background:#eef2f8;color:#233d70; }
+.conversion-home .page-hero,.conversion-resources .page-hero,.entrepreneurship-page .page-hero { padding-top:22px; }
+.conversion-home .hero-card,.conversion-resources .hero-card,.entrepreneurship-page .hero-card { background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,250,255,.95));border:1px solid #dbe3f0;border-radius:32px;padding:clamp(26px,4vw,52px);box-shadow:0 10px 30px rgba(50,78,128,.08); }
+.conversion-home .page-title,.conversion-resources .page-title,.entrepreneurship-page .page-title { line-height:1.07;letter-spacing:-.04em;max-width:900px; }
+.conversion-home .eyebrow,.conversion-resources .eyebrow,.entrepreneurship-page .eyebrow { display:inline-flex;margin-bottom:18px; }
+.conversion-accent { color:#4f88e8; }
+.conversion-hero-grid { display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:clamp(25px,4vw,60px);align-items:center; }
+.conversion-actions { display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:30px; }
+.conversion-primary { background:#4f88e8!important;color:#fff!important;text-align:center;border-radius:16px; }
+.conversion-primary:hover { background:#386fc9!important; }
+.conversion-text-link { color:#335d9b;font-weight:800;text-decoration:underline;text-underline-offset:3px; }
+.conversion-privacy { color:#667796;font-size:13px;line-height:1.55;margin-top:18px; }
+.conversion-steps { background:#f0f5ff;border:1px solid #d9e6fc;border-radius:26px;padding:clamp(20px,3vw,30px); }
+.conversion-steps h2 { font-size:22px;margin:0 0 18px; }
+.conversion-steps ol { padding:0;list-style:none;margin:0;display:grid;gap:20px; }
+.conversion-steps li { display:flex;gap:14px;align-items:flex-start; }
+.conversion-steps li>b { width:36px;height:36px;flex:none;display:grid;place-items:center;background:#4f88e8;color:#fff;border-radius:12px; }
+.conversion-steps li strong,.conversion-steps li span { display:block; }
+.conversion-steps li span { color:#667796;margin-top:3px;font-size:14px;line-height:1.4; }
+.conversion-price { margin-top:25px;background:#fff;border:1px solid #dbe3f0;border-radius:18px;padding:18px; }
+.conversion-price>span { font-size:13px;font-weight:800;color:#667796;display:block; }
+.conversion-price>strong { font-size:27px;color:#2b6fbf;display:block; }
+.conversion-price small { font-size:13px;line-height:1.55;color:#526987;display:block; }
+.conversion-explainer h2,.conversion-support h2,.conversion-final h2 { font-size:clamp(25px,3vw,37px);margin:0 0 12px; }
+.conversion-explainer p,.conversion-support p,.conversion-final p { color:#667796;line-height:1.65; }
+.conversion-explainer .btn { margin-top:18px; }
+.conversion-benefits { display:flex;flex-wrap:wrap;gap:10px;margin:22px 0; }
+.conversion-benefits span { background:#ecf4ff;border:1px solid #d9e6fc;padding:10px 13px;border-radius:30px;color:#3467a7;font-size:13px;font-weight:800; }
+.conversion-support-grid,.conversion-resource-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px; }
+.conversion-support-grid article { background:#fff;border:1px solid #dbe3f0;border-radius:20px;padding:23px; }
+.conversion-support-grid article h3 { margin:0 0 8px;font-size:19px; }
+.conversion-support-grid article a,.conversion-resource-grid article a,.business-card a { color:#2464b0;font-weight:800;text-underline-offset:3px; }
+.conversion-all { text-align:right; }
+.conversion-final { display:flex;align-items:center;justify-content:space-between;gap:25px; }
+.conversion-final>div { max-width:650px; }
+.conversion-resource-grid .page-card { margin:0; }
+.conversion-resource-grid h2 { font-size:23px;margin:0 0 10px; }
+.conversion-resource-grid p { color:#667796;line-height:1.6; }
+.entrepreneurship-page .business-intro { max-width:900px; }
+.business-resource-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px; }
+.business-card { background:#fff;border:1px solid #dbe3f0;border-radius:20px;padding:23px; }
+.business-card h3 { font-size:20px;line-height:1.3;margin:11px 0 7px; }
+.business-card .business-org { color:#3b6db4;font-size:13px;font-weight:800;margin:0 0 8px; }
+.business-card p { color:#667796;line-height:1.55; }
+.business-category { font-size:12px;font-weight:800;text-transform:uppercase;color:#456da4;background:#eaf2ff;border-radius:12px;padding:7px 10px; }
+.business-filter-group { display:flex;flex-wrap:wrap;gap:9px;margin:0 0 23px; }
+.business-filter-group button { cursor:pointer;border-radius:30px;padding:10px 15px;border:1px solid #d0ddf0;background:#fff;color:#2b568f;font-weight:750; }
+.business-filter-group button.active,.business-filter-group button[aria-pressed="true"] { background:#4f88e8;color:#fff;border-color:#4f88e8; }
+.business-note { font-size:14px;color:#667796;line-height:1.6;margin-top:24px; }
+.conversion-skip { position:absolute;top:-100px;left:12px;z-index:999;background:white;padding:10px; } .conversion-skip:focus { top:12px; }
+@media(max-width:900px) { .conversion-hero-grid,.business-resource-grid {grid-template-columns:1fr 1fr;} .conversion-hero-grid>div:first-child{grid-column:1/-1;} }
+@media(max-width:740px) { .conversion-hero-grid,.conversion-support-grid,.conversion-resource-grid,.business-resource-grid {grid-template-columns:1fr;} .conversion-final{align-items:flex-start;flex-direction:column;} .conversion-home .btn,.conversion-resources .conversion-actions .btn,.entrepreneurship-page .conversion-actions .btn {width:100%;} }
