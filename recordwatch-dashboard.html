@@ -202,10 +202,10 @@
         var subscription = activeSubscription();
         var preferences = Object.assign({ email_enabled: true, sms_enabled: false }, premiumState.preferences || {});
         var premium = window.RecordWatchMessageProvider && RecordWatchMessageProvider.isPremium(subscription);
-        var renewal = subscription && (subscription.current_period_end || subscription.premium_expires_at);
+        var lifetime = subscription && String(subscription.plan || "").toLowerCase() === "lifetime_case";
         recordwatchPremiumPanel.innerHTML = '<div class="case-header"><div><p class="eyebrow-mini">Premium RecordWatch</p><h2>' + (premium ? 'Premium active <span class="status-badge eligible-now">Premium</span>' : 'Free monitoring') + '</h2><p class="muted">Paid monitoring adds SMS reminders, court-status updates when available, missing-info reminders, and multi-case monitoring.</p></div></div>' +
-          '<div class="recordwatch-monitor-grid">' + statCard('Current status', premium ? 'Premium' : 'Free') + statCard('Plan', subscription && subscription.plan || 'Free') + statCard('Renewal date', renewal ? RecordWatchRules.formatDate(renewal) : 'Not scheduled') + statCard('Notification status', preferences.sms_enabled ? 'Email + SMS' : 'Email / dashboard') + '</div>' +
-          '<div class="recordwatch-actions"><button class="btn" type="button" data-premium-action="monthly">Monthly checkout — $4.99/month</button><button class="btn secondary" type="button" data-premium-action="annual">Annual checkout — $39/year</button><button class="btn danger" type="button" data-premium-action="cancel">Cancel subscription</button></div><p id="premiumActionStatus" class="muted"></p>';
+          '<div class="recordwatch-monitor-grid">' + statCard('Current status', premium ? 'Premium' : 'Free') + statCard('Plan', lifetime ? 'Lifetime per case' : (subscription && subscription.plan || 'Free')) + statCard('Billing', lifetime ? 'One-time · no renewal' : 'No new subscription offered') + statCard('Notification status', preferences.sms_enabled ? 'Email + SMS' : 'Email / dashboard') + '</div>' +
+          '<div class="recordwatch-actions"><button class="btn" type="button" data-premium-action="lifetime_case">Unlock Lifetime Premium for this case — $39 one time</button></div><p class="meta-note">This is a one-time payment for one saved case, not a recurring subscription. The server must verify any existing entitlement to prevent duplicate purchases.</p><p id="premiumActionStatus" class="muted"></p>';
         var consentText = window.RecordWatchMessageProvider ? RecordWatchMessageProvider.SMS_CONSENT_TEXT : 'By enabling SMS notifications, you agree to receive RecordWatch reminders from RecordPathAI. Message and data rates may apply. Reply STOP to opt out.';
         var phone = preferences.phone_number || (user && user.phone) || '';
         var consentChecked = Boolean(preferences.sms_consent_at || preferences.sms_consent);
@@ -226,7 +226,14 @@
             var action = button.getAttribute('data-premium-action');
             var status = document.getElementById('premiumActionStatus');
             button.disabled = true;
-            var request = action === 'cancel' ? RecordWatchNotifications.cancelPremiumSubscription() : RecordWatchNotifications.checkoutPremium(action);
+            var request = (async function () {
+              if (action !== 'lifetime_case') throw new Error('Unsupported RecordWatch plan.');
+              if (!activeUser()) throw new Error('Sign in before checkout so the payment is attached to your saved case.');
+              var draft = window.RecordPathUserStore && RecordPathUserStore.getCurrentRecordWatchCase ? await RecordPathUserStore.getCurrentRecordWatchCase() : null;
+              var savedCaseId = draft && (draft.savedCaseId || (draft.case && (draft.case.case_id || draft.case.id))) || (window.RecordPathUserStore && RecordPathUserStore.getActiveCaseId ? RecordPathUserStore.getActiveCaseId() : '');
+              if (!savedCaseId) throw new Error('Save a case in RecordWatch before purchasing Lifetime Premium.');
+              return RecordWatchNotifications.checkoutPremium('lifetime_case', { saved_case_id: savedCaseId, case_id: savedCaseId });
+            })();
             request.then(function (result) { if (result.url) window.location.href = result.url; else { if (status) status.textContent = 'Premium RecordWatch updated.'; loadPremiumState(); } }).catch(function (error) { if (status) status.textContent = error.message; }).finally(function () { button.disabled = false; });
           });
         });
