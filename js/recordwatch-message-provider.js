@@ -9,9 +9,10 @@
     if (!subscription) return false;
     var status = clean(subscription.status || (subscription.subscription && subscription.subscription.status)).toLowerCase();
     var plan = clean(subscription.plan || (subscription.subscription && subscription.subscription.plan)).toLowerCase();
-    var premiumFlag = subscription.premium === true || subscription.premium_active === true || plan === "monthly" || plan === "annual" || plan === "addon_12_month" || plan === "premium";
+    var premiumFlag = subscription.premium === true || subscription.premium_active === true || plan === "monthly" || plan === "annual" || plan === "addon_12_month" || plan === "premium" || plan === "lifetime_case";
     if (!premiumFlag) return false;
     if (status && ["active", "trialing", "paid"].indexOf(status) === -1) return false;
+    if (plan === "lifetime_case") return true;
     var end = subscription.current_period_end || subscription.premium_expires_at || (subscription.subscription && subscription.subscription.current_period_end);
     return !end || new Date(end).getTime() > Date.now();
   }
